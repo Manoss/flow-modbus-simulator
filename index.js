@@ -1,7 +1,7 @@
 //var Debitmetre = require('./turbine')
 import Debitmetre from "./turbine.js"
 
-import {calculAdditif, volumeT} from "./util.js";
+import {calculAdditif, swapIntegerToHexadecimal, volumeT} from "./util.js";
 
 const predetermination = 200;
 const taux = 4.8;
@@ -31,6 +31,7 @@ em2.pulse();
 //em3.pulse();
 
 console.log("Volume à T : ", volumeT(calculAdditif(predetermination, taux), densite))
+console.log(swapIntegerToHexadecimal(predetermination))
 
 /**
 em1.start();

@@ -6,28 +6,14 @@ export function volumeT(masse,densite){
     return masse*densite;
 }
 
-export function swapIntegerToHexadecimal(entier) {
-    const arr = new ArrayBuffer(4);
-    const view = new DataView(arr);
-    view.setUint32(0, 8000, false);
-    let extract = new Uint8Array(arr)
-    console.log("Uint8Array : ", arr[2])
-    //swap 32 bits
-    let pos = 0;
-    const a = view.getUint8(pos++).toString(16);
-    const r = view.getUint8(pos++).toString(16);
-    const g = view.getUint8(pos++).toString(16);
-    const b = view.getUint8(pos++).toString(16);
-    console.log("Swap : ", a,r,g,b)
-    console.log("View : ", view)
-    let reverse= []
-    reverse.push(g);
-    reverse.push(b);
-    reverse.push(a);
-    reverse.push(r);
-    reverse.push('0');
-    reverse.push('0');
-    const swap = reverse.join('').toString(10)
-    console.log("reverse : ", parseInt(reverse.join(''),16))
-    return arr
+export function swapUint32(uInt32) {
+    const swap = parseInt(uInt32.toString(2).padStart(16,0).padEnd(32,0),2)
+    console.log("[swapUint32 : ", swap)
+    return swap
+}
+
+export function swapUint16(uInt16) {
+    const swap = parseInt(uInt16.toString(2).padStart(8,0).padEnd(16,0),2)
+    console.log("[swapUint16 : ", swap)
+    return swap
 }

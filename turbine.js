@@ -39,9 +39,12 @@ export default class Debitmetre {
   
     pulse() {
       this.turbine = setInterval(() => {
-        console.log(this.consigne, this.volume);
+        console.log("Pulse : ",this.consigne, this.volume);
         this.calculVolume();
-        if (this.consigneAtteinte()) clearInterval(this.turbine);
+        if (this.consigneAtteinte()) {
+          clearInterval(this.turbine);
+          return this.volume
+        }
       }, this.interval);
     }
   }

@@ -1,14 +1,21 @@
 //var Debitmetre = require('./turbine')
 import Debitmetre from "./turbine.js"
+import {calculAdditif, volume15, volumeT} from "./metrologie.js"
 
-import {calculAdditif, swapUint32, volumeT} from "./util.js";
+import {lowUint16, hightUint16} from "./conversion.js";
 
-const predetermination = 200;
+const consigne = 200;
 const taux = 4.8;
 const densite = 0.789;
+const mot28 = 1122;
+const temperature = 22.35;
+const coeff15 = 0.9922;
+let volumeCharge = 0;
 
-const em1 = new Debitmetre(predetermination, 'em1');
-const em2 = new Debitmetre(calculAdditif(predetermination, taux), 'em2');
+const additif = calculAdditif(consigne, taux)
+
+const em1 = new Debitmetre(consigne, 'em1');
+const em2 = new Debitmetre(additif, 'em2');
 const em3 = new Debitmetre(150, 'em3');
 
 /**
@@ -30,8 +37,16 @@ em2.pulse();
 //em3.start();
 //em3.pulse();
 
-console.log("Volume à T : ", volumeT(calculAdditif(predetermination, taux), densite))
-swapUint32(8000);
+const tauxSatisfaction = lowUint16(mot28);
+const injecteur = hightUint16(mot28);
+const volume = volumeT(consigne,densite)
+const volumeA15 = volume15(volume,coeff15,temperature,)
+
+console.log("Taux Satisfaction : ", tauxSatisfaction, " %")
+console.log("Numéro d'injecteur : ", injecteur)
+console.log("Volume à Température : ", volume)
+console.log("Volume à 15°c : ", volumeA15)
+console.log("Volume Chargé : ", volumeCharge)
 
 /**
 em1.start();
@@ -46,3 +61,4 @@ turb2 = setInterval(() => {
   if (em2.consigneAtteinte()) clearInterval(turb2);
 }, 100);
 */
+

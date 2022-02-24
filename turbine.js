@@ -32,7 +32,7 @@ export default class Debitmetre {
       console.log('Stop : ', this.volume);
     }
   
-    calculVolume() {
+    incrementVolume() {
       this.volume++;
       console.log(this.identifiant, 'Volume en cours : ', this.volume);
     }
@@ -40,10 +40,10 @@ export default class Debitmetre {
     pulse() {
       this.turbine = setInterval(() => {
         console.log("Pulse : ",this.consigne, this.volume);
-        this.calculVolume();
+        this.incrementVolume();
         if (this.consigneAtteinte()) {
           clearInterval(this.turbine);
-          return this.volume
+          console.log("Volume final : ", this.volume)
         }
       }, this.interval);
     }

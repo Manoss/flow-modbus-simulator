@@ -48,16 +48,21 @@ console.log("Volume à Température : ", volume)
 console.log("Volume à 15°c : ", volumeA15)
 console.log("Volume Chargé : ", volumeCharge)
 
+
+if(em1.consigneAtteinte() && em1.consigneAtteinte()){
+  console.log("Chargement terminée")
+}
+
 /**
 em1.start();
 
 turb1 = setInterval(() => {
-  em1.calculVolume();
+  em1.incrementVolume();
   if (em1.consigneAtteinte()) clearInterval(turb1);
 }, 500);
 
 turb2 = setInterval(() => {
-  em2.calculVolume();
+  em2.incrementVolume();
   if (em2.consigneAtteinte()) clearInterval(turb2);
 }, 100);
 */

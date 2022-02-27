@@ -21,12 +21,10 @@ export function volumeT(masse,densite){
 /**
  * Conversion du volume à temparéture vers Volume marchand à 15°c
  * @param {*} volumeT : Volume à température
- * @param {*} k : Coefficient dépendant du produit
- * @param {*} t : température
+ * @param {*} k : Coefficient dépendant du produit à T°c
  * @returns : Volume converti à 15 °c
  */
 
-export function volume15(volumeT, k, t){
-    const volume15 = volumeT*(1+k*(t-15))
-    return volume15
+export function volume15(volumeT, k){
+    return volumeT*k
 }

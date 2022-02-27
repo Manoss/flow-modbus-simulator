@@ -1,5 +1,8 @@
-export default class Debitmetre {
+import EventEmitter from 'events'
+
+export default class Debitmetre extends EventEmitter{
     constructor(consigne, identifiant) {
+      super();
       this.consigne = consigne;
       this.volume = 0;
       this.tempsRestant = new Date();
@@ -9,42 +12,41 @@ export default class Debitmetre {
       this.identifiant = identifiant || 'turbine';
     }
   
-    consigneAtteinte() {
+    _consigneAtteinte() {
       if (this.volume >= this.consigne) {
-        console.log(this.identifiant, 'Volume atteint : ', this.volume);
+        this.emit("consigneAtteinte", this.volume)
         return true;
       }
       return false;
     }
+
+    _incrementVolume() {
+      this.volume++;
+      this.emit("volumeEnCours", this.volume)
+    }
+
+    _pulse() {
+      this.turbine = setInterval(() => {
+        this._incrementVolume();
+        if (this._consigneAtteinte()) {
+          clearInterval(this.turbine);
+          this.stop()
+        }
+      }, this.interval);
+    }
   
     start() {
-      this.tempsDebut = new Date();
-      console.log(this.identifiant, ' Start heure :', this.tempsDebut);
+      this.emit("start");
+      this._pulse();
     }
   
     pause() {
       this.tempsRestant = this.interval - (new Date() - this.tempsDebut);
       console.log('Pause, temps restant : ', this.tempsRestant);
-      return true;
+      this.emit("pause")
     }
   
     stop() {
-      console.log('Stop : ', this.volume);
-    }
-  
-    incrementVolume() {
-      this.volume++;
-      console.log(this.identifiant, 'Volume en cours : ', this.volume);
-    }
-  
-    pulse() {
-      this.turbine = setInterval(() => {
-        console.log("Pulse : ",this.consigne, this.volume);
-        this.incrementVolume();
-        if (this.consigneAtteinte()) {
-          clearInterval(this.turbine);
-          console.log("Volume final : ", this.volume)
-        }
-      }, this.interval);
+      this.emit("stop")
     }
   }

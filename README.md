@@ -13,6 +13,7 @@ This project is under GNU GPLv3
 ## Technologies
 Project is created with:
 * Javascript
+* nodejs V17.6.0
 
 	
 ## Setup
@@ -20,6 +21,5 @@ To run this project, install it locally using npm:
 
 ```
 $ cd ../flow-modbus-simulator
-$ npm install
-$ npm start
+$ node index.js
 ```

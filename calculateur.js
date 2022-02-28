@@ -1,6 +1,7 @@
 import Debitmetre from "./turbine.js"
 import {calculAdditif, volume15, volumeT} from "./metrologie.js"
 import {lowUint16, hightUint16} from "./conversion.js";
+import { startServeur } from "./serveur-modbus.js";
 
 export default class Calculateur {
     constructor(id, consigne, taux) {
@@ -28,8 +29,11 @@ export default class Calculateur {
     }
 
     start(){
-        this.em1.start();
-        this.em2.start();
+
+        startServeur('193.1.1.1', 502, 2);
+
+        //this.em1.start();
+        //this.em2.start();
 
         this.em1
         .on("start", () => console.log("[EM1] Turbine en service"))

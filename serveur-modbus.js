@@ -25,8 +25,8 @@ var vector = {
     },
     setRegister: function(addr, value, unitID) {
         // Asynchronous handling supported also here
-      consigne(addr,value)
-        .then(console.log("Buffer 32 : ", bufferUInt32.readUInt32BE(0).toString(10)))
+      setConsigne(addr,value)
+        .then((buffer) =>console.log("Buffer 32 - Consigne saisie : ", buffer.readUInt32BE(0).toString(10)))
         .catch(err => console.log("Promise erreur : ",err))
         return;
     },
@@ -169,20 +169,21 @@ function setRegisterSwitch(addr, value) {
     }
 }
 
-function consigne(addr,value) {
-    return new Promise ((success, err) => {
+async function setConsigne(addr,value) {
+    return await new Promise ((resolve, reject) => {
 
-        console.log("promise")
+        console.log("setConsigne")
+        console.log("Valeur Buffer initial :", bufferUInt32);
+
         if(addr === 4) {
-
-            console.log("Buffer :", bufferUInt32);
             bufferUInt32.writeUInt16BE(value,2)
             console.log("Buffer 4 :", bufferUInt32);
+            //reject()
         }
         if (addr === 5) {
             bufferUInt32.writeUInt16BE(value,0)
             console.log("Buffer addr 5 : ", bufferUInt32 )
-            success()
+            resolve(bufferUInt32)
         }
         
         //if (addr !== 4 || addr !== 5) err()

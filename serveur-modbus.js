@@ -25,19 +25,9 @@ var vector = {
     },
     setRegister: function(addr, value, unitID) {
         // Asynchronous handling supported also here
-        if(addr === 4) {
-
-            console.log("Buffer :", bufferUInt32);
-            bufferUInt32.writeUInt16BE(value,2)
-            console.log("Buffer 4 :", bufferUInt32);
-        }
-        if (addr === 5) {
-            bufferUInt32.writeUInt16BE(value,0)
-            console.log("Buffer addr 5 : ", bufferUInt32 )
-        }
-        console.log("set register", addr, value, unitID);
-        //setRegisterSwitch(addr, value);
-        console.log("valeur lue : ", bufferUInt32.readUInt32BE(0).toString(10))
+      consigne(addr,value)
+        .then(console.log("Buffer 32 : ", bufferUInt32.readUInt32BE(0).toString(10)))
+        .catch(err => console.log("Promise erreur : ",err))
         return;
     },
     setCoil: function(addr, value, unitID) {
@@ -177,4 +167,24 @@ function setRegisterSwitch(addr, value) {
         default:
             console.log("Nada")
     }
+}
+
+function consigne(addr,value) {
+    return new Promise ((success, err) => {
+
+        console.log("promise")
+        if(addr === 4) {
+
+            console.log("Buffer :", bufferUInt32);
+            bufferUInt32.writeUInt16BE(value,2)
+            console.log("Buffer 4 :", bufferUInt32);
+        }
+        if (addr === 5) {
+            bufferUInt32.writeUInt16BE(value,0)
+            console.log("Buffer addr 5 : ", bufferUInt32 )
+            success()
+        }
+        
+        //if (addr !== 4 || addr !== 5) err()
+    })
 }

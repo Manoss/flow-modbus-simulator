@@ -1,5 +1,8 @@
 import * as ModbusRTU from 'modbus-serial' ;
 
+let bufferUInt32 = Buffer.alloc(4)
+let binaire4 = ''
+
 var vector = {
     getInputRegister: function(addr, unitID) {
         // Synchronous handling
@@ -22,9 +25,19 @@ var vector = {
     },
     setRegister: function(addr, value, unitID) {
         // Asynchronous handling supported also here
+        if(addr === 4) {
+
+            console.log("Buffer :", bufferUInt32);
+            bufferUInt32.writeUInt16BE(value,2)
+            console.log("Buffer 4 :", bufferUInt32);
+        }
+        if (addr === 5) {
+            bufferUInt32.writeUInt16BE(value,0)
+            console.log("Buffer addr 5 : ", bufferUInt32 )
+        }
         console.log("set register", addr, value, unitID);
-        setRegisterSwitch(addr, value);
-        console.log("set register", addr, value, unitID);
+        //setRegisterSwitch(addr, value);
+        console.log("valeur lue : ", bufferUInt32.readUInt32BE(0).toString(10))
         return;
     },
     setCoil: function(addr, value, unitID) {
@@ -113,10 +126,16 @@ function setRegisterSwitch(addr, value) {
             console.log("N° DSPC", dspc);
             break;
         case 4:
+            console.log("Buffer :", bufferUInt32);
+            bufferUInt32.fill(value)
+            console.log("Buffer :", bufferUInt32);
+            break;
         case 5:
             prede.push(value);
+            bufferUInt32.fill(prede)
             console.log("Prédétermination");
             console.log("Longueur Tableau : ", prede.length)
+            console.log("Buffer :", bufferUInt32);
 
             if(prede.length >0) {
                 

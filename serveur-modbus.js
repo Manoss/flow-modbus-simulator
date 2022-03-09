@@ -23,7 +23,7 @@ let fonction = {
 }
 
 
-
+/*
 var vector = {
     getInputRegister: function(addr, unitID) {
         // Synchronous handling
@@ -67,8 +67,9 @@ var vector = {
         };
     }
 }
+*/
 
-export function startServeur(ip,port,unitID){
+export function startServeur(vector, ip,port,unitID){
     console.log("ModbusTCP listening on modbus://",ip,":",port);
     var serverTCP = new ModbusRTU.ServerTCP(vector, { host: ip, port: port, debug: true, unitID: unitID });
 

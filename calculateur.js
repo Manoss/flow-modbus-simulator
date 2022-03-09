@@ -2,6 +2,7 @@ import Debitmetre from "./turbine.js"
 import {calculAdditif, volume15, volumeT} from "./metrologie.js"
 import {lowUint16, hightUint16} from "./conversion.js";
 import { startServeur } from "./serveur-modbus.js";
+import TableEcriture  from "./table-ecriture.js"
 
 export default class Calculateur {
     constructor(id, consigne, taux) {
@@ -15,6 +16,7 @@ export default class Calculateur {
         this.additif = calculAdditif(this.consigne, this.taux)
         this.em1 = new Debitmetre(consigne, 'em1');
         this.em2 = new Debitmetre(this.additif, 'em2');
+        this.tableEcriture = new TableEcriture();
     }
 
     #bilan(vol){
